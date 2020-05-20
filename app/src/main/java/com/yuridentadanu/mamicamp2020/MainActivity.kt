@@ -8,6 +8,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    internal var score =0
+
     internal lateinit var btnTapMe: Button
     internal lateinit var tvGameScore: TextView
     internal lateinit var tvTimer: TextView
@@ -17,6 +19,17 @@ class MainActivity : AppCompatActivity() {
         btnTapMe= findViewById(R.id.btn_tapMe)
         tvGameScore = findViewById(R.id.tv_yourScore)
         tvTimer = findViewById(R.id.tv_timeLeft)
-        
+
+        btnTapMe.setOnClickListener{view ->
+            incrementScore()
+        }
+        tvGameScore.text = getString(R.string.your_score,0)
+    }
+
+    private fun incrementScore() {
+
+        score += 1
+        val newScore = getString(R.string.your_score,score)
+        tvGameScore.text=newScore
     }
 }
