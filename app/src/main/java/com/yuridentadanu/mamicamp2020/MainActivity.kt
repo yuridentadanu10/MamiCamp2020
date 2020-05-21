@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.Menu
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         tvTimer = findViewById(R.id.tv_timeLeft)
 
         btnTapMe.setOnClickListener{view ->
+            val bounceAnimation = AnimationUtils.loadAnimation(this,R.anim.bounce)
+            view.startAnimation(bounceAnimation)
             incrementScore()
         }
         tvGameScore.text = getString(R.string.your_score,0)
@@ -54,6 +58,12 @@ class MainActivity : AppCompatActivity() {
         {
             resetGame()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
     }
 
     private fun restoreGame(){
@@ -105,6 +115,9 @@ class MainActivity : AppCompatActivity() {
         score += 1
         val newScore = getString(R.string.your_score,score)
         tvGameScore.text=newScore
+
+        val blinkAnimation = AnimationUtils.loadAnimation(this,R.anim.blink)
+        tvGameScore.startAnimation(blinkAnimation)
     }
 
     private fun startGame(){
