@@ -5,5 +5,7 @@ branch which follows the original tutorial from raywenderlich and
 
 
 in this branch I will add several features.
-- every game ends, the final score will be stored in the cloud database database.
-- There is new button to display game history page that is displayed from Firebase Cloud Firestore.
+- Implement Android Jetpack Navigation component 
+- Before playing this game, user need to register with email
+- every game ends, the final score will be stored in the cloud database database for game records 
+- There is new button to display game records page for user that is displayed from Firebase Cloud Firestore.
