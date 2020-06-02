@@ -1,22 +1,25 @@
 package com.yuridentadanu.mamicamp2020
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
-import android.view.Menu
-import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game.GameActivity
 
 class MainActivity : AppCompatActivity() {
-// my version
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        auth = Firebase.auth
+    }
 
-
+    override fun onStart() {
+        super.onStart()
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, GameActivity::class.java))
+        }
     }
 }

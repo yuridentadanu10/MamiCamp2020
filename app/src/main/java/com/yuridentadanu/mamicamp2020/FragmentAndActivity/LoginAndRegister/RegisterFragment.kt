@@ -1,4 +1,4 @@
-package com.yuridentadanu.mamicamp2020.LoginAndRegister
+package com.yuridentadanu.mamicamp2020.FragmentAndActivity.LoginAndRegister
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.yuridentadanu.mamicamp2020.GameActivity
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game.GameActivity
 import com.yuridentadanu.mamicamp2020.MainActivity
 import com.yuridentadanu.mamicamp2020.R
 import com.yuridentadanu.mamicamp2020.model.User
@@ -52,23 +52,23 @@ class RegisterFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextName = view.findViewById(R.id.et_fullName);
-        editTextEmail = view.findViewById(R.id.et_email);
-        editTextPassword = view.findViewById(R.id.et_password);
-        editTextConfirm = view.findViewById(R.id.et_passwordConfirm);
-        btnRegister = view.findViewById(R.id.btn_register);
-        btnHaveAccount = view.findViewById(R.id.tv_havaAcc);
-        progressBar = view.findViewById(R.id.progressbar);
-        progressBar.setVisibility(View.GONE);
-        btnRegister.setOnClickListener(this);
-        btnHaveAccount.setOnClickListener(this);
+        editTextName = view.findViewById(R.id.et_fullName)
+        editTextEmail = view.findViewById(R.id.et_email)
+        editTextPassword = view.findViewById(R.id.et_password)
+        editTextConfirm = view.findViewById(R.id.et_passwordConfirm)
+        btnRegister = view.findViewById(R.id.btn_register)
+        btnHaveAccount = view.findViewById(R.id.tv_havaAcc)
+        progressBar = view.findViewById(R.id.progressbar)
+        progressBar.setVisibility(View.GONE)
+        btnRegister.setOnClickListener(this)
+        btnHaveAccount.setOnClickListener(this)
 
         mAuth = Firebase.auth
          db = Firebase.firestore
     }
 
     private fun registerUser() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE)
         val name = editTextName.text.toString().trim()
         val email = editTextEmail.text.toString().trim()
         val password = editTextPassword.text.toString().trim()
@@ -120,11 +120,11 @@ class RegisterFragment : Fragment(), View.OnClickListener {
                     db.collection("user").document(uid).set(user)
                         .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE)
                 } else {
                     Toast.makeText(context, task.exception!!.message, Toast.LENGTH_LONG)
                         .show()
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE)
                 }
             }
     }

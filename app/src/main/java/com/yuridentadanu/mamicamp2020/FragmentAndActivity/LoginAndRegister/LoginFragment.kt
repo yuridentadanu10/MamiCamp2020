@@ -1,6 +1,6 @@
-package com.yuridentadanu.mamicamp2020.LoginAndRegister
+package com.yuridentadanu.mamicamp2020.FragmentAndActivity.LoginAndRegister
 
-import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -13,7 +13,7 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.yuridentadanu.mamicamp2020.GameActivity
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game.GameActivity
 import com.yuridentadanu.mamicamp2020.MainActivity
 import com.yuridentadanu.mamicamp2020.R
 
@@ -43,12 +43,12 @@ class LoginFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextEmail = view.findViewById(R.id.et_email);
-        editTextPassword = view.findViewById(R.id.et_password);
-        btnLogin = view.findViewById(R.id.btn_login);
-        progressBar = view.findViewById(R.id.progressbar);
-        progressBar.setVisibility(View.GONE);
-        btnLogin.setOnClickListener(this);
+        editTextEmail = view.findViewById(R.id.et_email)
+        editTextPassword = view.findViewById(R.id.et_password)
+        btnLogin = view.findViewById(R.id.btn_login)
+        progressBar = view.findViewById(R.id.progressbar)
+        progressBar.setVisibility(View.GONE)
+        btnLogin.setOnClickListener(this)
         tv_register = view.findViewById(R.id.tv_dontHave)
         tv_register.setOnClickListener(this)
 
@@ -82,6 +82,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
         progressBar.visibility = View.VISIBLE
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                startActivity(Intent(context, GameActivity::class.java))
                 val uid = mAuth.uid
                 progressBar.visibility = View.GONE
                 Log.d(TAG, "onComplete: $uid")

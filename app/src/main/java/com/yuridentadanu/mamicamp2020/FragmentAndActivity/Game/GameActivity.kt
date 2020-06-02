@@ -1,4 +1,4 @@
-package com.yuridentadanu.mamicamp2020
+package com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,8 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.yuridentadanu.mamicamp2020.R
 
 class GameActivity : AppCompatActivity() {
 
@@ -43,12 +42,14 @@ class GameActivity : AppCompatActivity() {
         tvTimer = findViewById(R.id.tv_timeLeft)
 
         btnTapMe.setOnClickListener{view ->
-            val bounceAnimation = AnimationUtils.loadAnimation(this,R.anim.bounce)
+            val bounceAnimation = AnimationUtils.loadAnimation(this,
+                R.anim.bounce
+            )
             view.startAnimation(bounceAnimation)
             incrementScore()
         }
         tvGameScore.text = getString(R.string.your_score,0)
-        tvTimer.text = getString(R.string.time_left,0);
+        tvTimer.text = getString(R.string.time_left,0)
 
 
         if(savedInstanceState!= null){
@@ -117,7 +118,9 @@ class GameActivity : AppCompatActivity() {
         val newScore = getString(R.string.your_score,score)
         tvGameScore.text=newScore
 
-        val blinkAnimation = AnimationUtils.loadAnimation(this,R.anim.blink)
+        val blinkAnimation = AnimationUtils.loadAnimation(this,
+            R.anim.blink
+        )
         tvGameScore.startAnimation(blinkAnimation)
     }
 
@@ -134,7 +137,7 @@ class GameActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(SCORE_KEY,score);
+        outState.putInt(SCORE_KEY,score)
         outState.putLong(TIME_LEFT_KEY,timeLeftOnTimer)
         countDownTimer.cancel()
 
