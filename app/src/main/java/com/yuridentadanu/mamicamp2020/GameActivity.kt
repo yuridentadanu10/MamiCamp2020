@@ -62,7 +62,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
+        super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu,menu)
         return true
     }

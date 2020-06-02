@@ -12,4 +12,11 @@
     <string name="sign_in">Sign In</string>
     <string name="have_account">Already have an account? Sign in now!!</string>
     <string name="mamicamp">MamiCamp</string>
+
+    <string name="input_error_name">this field is required</string>
+    <string name="input_error_email">this field is required</string>
+    <string name="input_error_email_invalid">email invalid</string>
+    <string name="input_error_password">this field is required</string>
+    <string name="input_error_password_length">password must be at least 6 characters</string>
+    <string name="input_confirm_false">Password not match</string>
 </resources>
