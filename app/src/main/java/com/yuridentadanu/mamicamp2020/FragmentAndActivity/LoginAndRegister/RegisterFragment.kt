@@ -15,6 +15,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.yuridentadanu.mamicamp2020.Const.DB_USERS
+import com.yuridentadanu.mamicamp2020.Const.getUidUser
 import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game.GameActivity
 import com.yuridentadanu.mamicamp2020.MainActivity
 import com.yuridentadanu.mamicamp2020.R
@@ -114,10 +116,10 @@ class RegisterFragment : Fragment(), View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val uid = mAuth.uid.toString()
+                    val uid = getUidUser()
                     startActivity(Intent(context, GameActivity::class.java))
                     val user = User(name, email)
-                    db.collection("user").document(uid).set(user)
+                    db.collection(DB_USERS).document(uid).set(user)
                         .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
                     progressBar.setVisibility(View.GONE)

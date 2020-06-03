@@ -1,5 +1,6 @@
 package com.yuridentadanu.mamicamp2020.FragmentAndActivity.Game
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,20 +10,35 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.yuridentadanu.mamicamp2020.Const
+import com.yuridentadanu.mamicamp2020.Const.DB_HISTORY
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.LoginAndRegister.RegisterFragment
 import com.yuridentadanu.mamicamp2020.R
+import com.yuridentadanu.mamicamp2020.model.HistoryGame
+import com.yuridentadanu.mamicamp2020.model.User
+import kotlinx.android.synthetic.main.item_history.*
+import com.yuridentadanu.mamicamp2020.Const.getUidUser
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.HistoryGame.HistoryActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GameActivity : AppCompatActivity() {
 
     internal var score =0
 
     internal lateinit var btnTapMe: Button
+    internal lateinit var btnHistory: Button
     internal lateinit var tvGameScore: TextView
     internal lateinit var tvTimer: TextView
-
     internal var gameStarted = false
 
+    private lateinit var db: FirebaseFirestore
+
     internal lateinit var countDownTimer: CountDownTimer
-    internal val initCountdown: Long = 60000
+    internal val initCountdown: Long = 20000
     internal val countDownnInterval: Long = 1000
     internal var timeLeftOnTimer: Long = 6000
     companion object{
@@ -37,9 +53,11 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game)
 
         Log.d(TAG, "onCreate called, Score is: $score")
+        db = Firebase.firestore
         btnTapMe= findViewById(R.id.btn_tapMe)
         tvGameScore = findViewById(R.id.tv_yourScore)
         tvTimer = findViewById(R.id.tv_timeLeft)
+        btnHistory=findViewById(R.id.btn_history)
 
         btnTapMe.setOnClickListener{view ->
             val bounceAnimation = AnimationUtils.loadAnimation(this,
@@ -47,6 +65,9 @@ class GameActivity : AppCompatActivity() {
             )
             view.startAnimation(bounceAnimation)
             incrementScore()
+        }
+        btnHistory.setOnClickListener{ view ->
+            startActivity(Intent(this, HistoryActivity::class.java))
         }
         tvGameScore.text = getString(R.string.your_score,0)
         tvTimer.text = getString(R.string.time_left,0)
@@ -131,7 +152,18 @@ class GameActivity : AppCompatActivity() {
 
     private fun endGame(){
         Toast.makeText(this,getString(R.string.end_game,score), Toast.LENGTH_LONG).show()
+        writeScoretoDB()
         resetGame()
+    }
+
+    private fun writeScoretoDB(){
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date()).toString()
+        val user = HistoryGame(currentDate , score.toLong())
+        val uid = getUidUser()
+        db.collection(Const.DB_USERS).document(uid).collection(DB_HISTORY).add(user)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

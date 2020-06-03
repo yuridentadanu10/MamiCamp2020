@@ -6,4 +6,5 @@
     <color name="colorBackground">#D3D3D3</color>
     <color name="textBlack">#333333</color>
     <color name="buttonColor">#6AFF00</color>
+    <color name="colorDivider">#726D6D</color>
 </resources>
