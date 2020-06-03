@@ -6,4 +6,8 @@
         android:id="@+id/actionAbout"
         android:icon="@android:drawable/ic_dialog_info"
         android:title="@string/aboutMenu" />
+    <item
+        android:id="@+id/LogOut"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/logout" />
 </menu>

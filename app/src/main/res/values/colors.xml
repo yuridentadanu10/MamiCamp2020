@@ -7,4 +7,7 @@
     <color name="textBlack">#333333</color>
     <color name="buttonColor">#6AFF00</color>
     <color name="colorDivider">#726D6D</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorHistory">#bfb0ae</color>
+
 </resources>

@@ -15,11 +15,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.yuridentadanu.mamicamp2020.Const
 import com.yuridentadanu.mamicamp2020.Const.DB_HISTORY
-import com.yuridentadanu.mamicamp2020.FragmentAndActivity.LoginAndRegister.RegisterFragment
 import com.yuridentadanu.mamicamp2020.R
 import com.yuridentadanu.mamicamp2020.model.HistoryGame
-import com.yuridentadanu.mamicamp2020.model.User
-import kotlinx.android.synthetic.main.item_history.*
 import com.yuridentadanu.mamicamp2020.Const.getUidUser
 import com.yuridentadanu.mamicamp2020.FragmentAndActivity.HistoryGame.HistoryActivity
 import java.text.SimpleDateFormat
@@ -157,12 +154,14 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun writeScoretoDB(){
+
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date()).toString()
         val user = HistoryGame(currentDate , score.toLong())
         val uid = getUidUser()
         db.collection(Const.DB_USERS).document(uid).collection(DB_HISTORY).add(user)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!")
+              }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
@@ -179,5 +178,10 @@ class GameActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG,"on Destroy called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        restoreGame()
     }
 }

@@ -24,10 +24,13 @@ class HistoryActivity : AppCompatActivity() {
     private var db: FirebaseFirestore =Firebase.firestore
     private val mUsersCollection = db.collection(DB_USERS).document(getUidUser()).collection(
         DB_HISTORY)
-    private val mQuery = mUsersCollection.orderBy(DB_SCORE, Query.Direction.ASCENDING)
+    private val mQuery = mUsersCollection.orderBy(DB_SCORE, Query.Direction.DESCENDING)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+        val actionBar = supportActionBar
+        actionBar!!.title = "Game History"
+
         rv_firedb.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@HistoryActivity)
