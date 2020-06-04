@@ -27,6 +27,7 @@ import com.yuridentadanu.mamicamp2020.model.HistoryGame
 import com.yuridentadanu.mamicamp2020.Const.getUidUser
 import com.yuridentadanu.mamicamp2020.FragmentAndActivity.HistoryGame.HistoryActivity
 import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Leaderboard.LeaderboardActivity
+import com.yuridentadanu.mamicamp2020.MainActivity
 import com.yuridentadanu.mamicamp2020.model.Leaderboard
 import com.yuridentadanu.mamicamp2020.model.User
 import java.text.SimpleDateFormat
@@ -108,6 +109,8 @@ class GameActivity : AppCompatActivity() {
         }
         else if (item.itemId == R.id.LogOut) {
             Firebase.auth.signOut()
+            startActivity(Intent(this, MainActivity::class.java))
+
         }
 
         return true

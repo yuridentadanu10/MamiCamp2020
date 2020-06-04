@@ -25,6 +25,8 @@ class LeaderboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
+        val actionBar = supportActionBar
+        actionBar!!.title = "Leaderboard"
         setupAdapter()
     }
 

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_leaderboard.view.*
 class LeaderboardAdapter(options: FirestoreRecyclerOptions<Leaderboard>): FirestoreRecyclerAdapter<Leaderboard, LeaderboardAdapter.LeaderboardViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaderboardViewHolder {
-        return LeaderboardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_leaderboard, parent, false))
+        return LeaderboardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_leaderboard2, parent, false))
     }
 
     override fun onBindViewHolder(holder: LeaderboardViewHolder, position: Int, model: Leaderboard) {
@@ -41,7 +41,7 @@ class LeaderboardAdapter(options: FirestoreRecyclerOptions<Leaderboard>): Firest
             val firstchar = name.get(0).toString()
             //set view
             tv_name.text = name
-            tv_score.text = score
+            tv_score.text = "Score: $score"
             tv_position.text = position
             tv_firstLetter.text = firstchar
 
