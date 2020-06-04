@@ -22,4 +22,8 @@
     <string name="tv_date">: %1$d</string>
     <string name="tv_score">: %1$d</string>
     <string name="logout">Log out</string>
+    <string name="aboutTitle">Mamicamp 2020</string>
+    <string name="aboutMessage">Muhammad Yuridenta Aulia Dzakidhanu</string>
+
+    <string name="rank">#%1$d</string>
 </resources>

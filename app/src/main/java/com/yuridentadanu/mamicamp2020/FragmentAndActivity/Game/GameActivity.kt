@@ -6,19 +6,29 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.yuridentadanu.mamicamp2020.BuildConfig
 import com.yuridentadanu.mamicamp2020.Const
 import com.yuridentadanu.mamicamp2020.Const.DB_HISTORY
+import com.yuridentadanu.mamicamp2020.Const.DB_NAME
+import com.yuridentadanu.mamicamp2020.Const.DB_USERS
 import com.yuridentadanu.mamicamp2020.R
 import com.yuridentadanu.mamicamp2020.model.HistoryGame
 import com.yuridentadanu.mamicamp2020.Const.getUidUser
 import com.yuridentadanu.mamicamp2020.FragmentAndActivity.HistoryGame.HistoryActivity
+import com.yuridentadanu.mamicamp2020.FragmentAndActivity.Leaderboard.LeaderboardActivity
+import com.yuridentadanu.mamicamp2020.model.Leaderboard
+import com.yuridentadanu.mamicamp2020.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +38,7 @@ class GameActivity : AppCompatActivity() {
 
     internal lateinit var btnTapMe: Button
     internal lateinit var btnHistory: Button
+    internal lateinit var btnLeaderboard: Button
     internal lateinit var tvGameScore: TextView
     internal lateinit var tvTimer: TextView
     internal var gameStarted = false
@@ -55,6 +66,7 @@ class GameActivity : AppCompatActivity() {
         tvGameScore = findViewById(R.id.tv_yourScore)
         tvTimer = findViewById(R.id.tv_timeLeft)
         btnHistory=findViewById(R.id.btn_history)
+        btnLeaderboard =findViewById(R.id.btn_leaderboard)
 
         btnTapMe.setOnClickListener{view ->
             val bounceAnimation = AnimationUtils.loadAnimation(this,
@@ -66,6 +78,10 @@ class GameActivity : AppCompatActivity() {
         btnHistory.setOnClickListener{ view ->
             startActivity(Intent(this, HistoryActivity::class.java))
         }
+        btnLeaderboard.setOnClickListener{ view ->
+            startActivity(Intent(this, LeaderboardActivity::class.java))
+        }
+
         tvGameScore.text = getString(R.string.your_score,0)
         tvTimer.text = getString(R.string.time_left,0)
 
@@ -83,6 +99,17 @@ class GameActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.actionAbout) {
+            showInfo()
+        }
+        else if (item.itemId == R.id.LogOut) {
+            Firebase.auth.signOut()
+        }
+
         return true
     }
 
@@ -150,7 +177,19 @@ class GameActivity : AppCompatActivity() {
     private fun endGame(){
         Toast.makeText(this,getString(R.string.end_game,score), Toast.LENGTH_LONG).show()
         writeScoretoDB()
+        writeScoretoLeaderboard(score.toLong())
         resetGame()
+    }
+
+
+    private fun showInfo() {
+        val dialogTitle = getString(R.string.aboutTitle)
+        val dialogMessage = getString(R.string.aboutMessage)
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(dialogTitle)
+        builder.setMessage(dialogMessage)
+        builder.create().show()
     }
 
     private fun writeScoretoDB(){
@@ -165,6 +204,31 @@ class GameActivity : AppCompatActivity() {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
+    private fun writeScoretoLeaderboard(score: Long){
+
+        val uid = getUidUser()
+        val docRef = db.collection(DB_USERS).document(uid)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                   val name = document.getString(DB_NAME)
+                    val user = Leaderboard(name, score)
+                    db.collection(Const.DB_LEADERBOARD).add(user)
+                        .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written! $score")
+                        }
+                        .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+
+                    Log.d(TAG, "DocumentSnapshot data: ${document.getString(DB_NAME)}")
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+
+
+    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -180,8 +244,4 @@ class GameActivity : AppCompatActivity() {
         Log.d(TAG,"on Destroy called")
     }
 
-    override fun onResume() {
-        super.onResume()
-        restoreGame()
-    }
 }

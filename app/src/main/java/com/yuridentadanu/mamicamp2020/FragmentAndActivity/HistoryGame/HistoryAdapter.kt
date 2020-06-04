@@ -25,7 +25,6 @@ class HistoryAdapter(options: FirestoreRecyclerOptions<HistoryGame> ): Firestore
         private val tv_date = view.tv_date
         private val tv_score = view.tv_score
 
-
         fun bindItem(history: HistoryGame) {
             val date = ": ${history.date}"
             val score = ": ${history.score}"
