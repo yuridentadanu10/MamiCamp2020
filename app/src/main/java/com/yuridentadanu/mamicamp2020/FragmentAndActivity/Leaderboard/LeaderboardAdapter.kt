@@ -13,6 +13,7 @@ import com.yuridentadanu.mamicamp2020.model.HistoryGame
 import com.yuridentadanu.mamicamp2020.model.Leaderboard
 import kotlinx.android.synthetic.main.item_history.view.*
 import kotlinx.android.synthetic.main.item_history.view.tv_score
+import kotlinx.android.synthetic.main.item_leaderboard2.view.*
 
 class LeaderboardAdapter(options: FirestoreRecyclerOptions<Leaderboard>): FirestoreRecyclerAdapter<Leaderboard, LeaderboardAdapter.LeaderboardViewHolder>(options) {
 
