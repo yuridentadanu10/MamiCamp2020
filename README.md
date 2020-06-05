@@ -11,7 +11,7 @@ in this branch I will add several features.
 - There is new button to display game records and leaderboard page for user, that is displayed from Firebase Cloud Firestore.
 - Top 10 score will be displayed on the leaderboard page
 
-Screenshoot Apps
+Screenshot Application
 1. Splash Screen
 <img src="Screenshot/SplashScreen.jpg" width="200">
 
